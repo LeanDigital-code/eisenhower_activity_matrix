@@ -32,6 +32,7 @@ class MailActivity(models.Model):
         compute='_compute_eisenhower_quadrant',
         store=True,
         readonly=False,
+        inverse='_inverse_eisenhower_quadrant',
         tracking=True,
     )
 
@@ -57,10 +58,11 @@ class MailActivity(models.Model):
 
     @api.depends('user_id')
     def _compute_employee_id(self):
+        employee_model = self.env['hr.employee'].sudo()
         for activity in self:
-            employee = self.env['hr.employee'].search([
+            employee = employee_model.search([
                 ('user_id', '=', activity.user_id.id)
-            ], limit=1)
+            ], limit=1) if activity.user_id else employee_model.browse()
             activity.employee_id = employee.id
 
     @api.depends('res_model', 'res_id')
@@ -95,6 +97,14 @@ class MailActivity(models.Model):
         }
         for activity in self:
             activity.eisenhower_quadrant = mapping[(bool(activity.is_urgent), bool(activity.is_important))]
+
+
+    def _inverse_eisenhower_quadrant(self):
+        quadrant_map = self._quadrant_map()
+        for activity in self:
+            values = quadrant_map.get(activity.eisenhower_quadrant, {})
+            activity.is_urgent = values.get('is_urgent', False)
+            activity.is_important = values.get('is_important', False)
 
     @api.model
     def _quadrant_map(self):

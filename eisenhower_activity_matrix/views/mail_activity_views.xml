@@ -4,7 +4,7 @@
         <field name="name">mail.activity.tree.eisenhower</field>
         <field name="model">mail.activity</field>
         <field name="arch" type="xml">
-            <tree string="Eisenhower Activities" multi_edit="1" sample="1">
+            <list string="Eisenhower Activities" multi_edit="1" sample="1">
                 <field name="eisenhower_quadrant_sequence" optional="show"/>
                 <field name="priority_stars"/>
                 <field name="date_deadline"/>
@@ -18,7 +18,7 @@
                 <field name="is_urgent" widget="boolean_toggle"/>
                 <field name="eisenhower_quadrant"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -29,11 +29,8 @@
             <search string="Search activities">
                 <field name="summary"/>
                 <field name="user_id"/>
-                <field name="employee_id"/>
                 <field name="activity_type_id"/>
-                <field name="res_model"/>
                 <field name="date_deadline"/>
-                <field name="priority_stars"/>
                 <filter name="filter_overdue" string="Overdue" domain="[('date_deadline', '&lt;', context_today())]"/>
                 <filter name="filter_today" string="Today" domain="[('date_deadline', '=', context_today())]"/>
                 <filter name="filter_future" string="Upcoming" domain="[('date_deadline', '&gt;', context_today())]"/>
@@ -50,13 +47,11 @@
                 <filter name="filter_important" string="Important" domain="[('is_important', '=', True)]"/>
                 <filter name="filter_urgent" string="Urgent" domain="[('is_urgent', '=', True)]"/>
                 <filter name="filter_my_activities" string="My activities" domain="[('user_id', '=', uid)]"/>
-                <group expand="0" string="Group by">
+                <group>
                     <filter name="group_by_user" string="User" context="{'group_by': 'user_id'}"/>
-                    <filter name="group_by_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
                     <filter name="group_by_quadrant" string="Quadrant" context="{'group_by': 'eisenhower_quadrant'}"/>
                     <filter name="group_by_priority" string="Priority stars" context="{'group_by': 'priority_stars'}"/>
                     <filter name="group_by_type" string="Activity type" context="{'group_by': 'activity_type_id'}"/>
-                    <filter name="group_by_model" string="Model" context="{'group_by': 'res_model'}"/>
                     <filter name="group_by_deadline" string="Deadline" context="{'group_by': 'date_deadline'}"/>
                 </group>
             </search>
@@ -68,15 +63,13 @@
         <field name="model">mail.activity</field>
         <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
         <field name="arch" type="xml">
-            <xpath expr="//group" position="inside">
-                <group string="Eisenhower Matrix">
-                    <field name="eisenhower_quadrant"/>
-                    <field name="priority_stars"/>
-                    <field name="eisenhower_quadrant_sequence" readonly="1"/>
-                    <field name="is_important"/>
-                    <field name="is_urgent"/>
-                    <field name="employee_id" readonly="1"/>
-                </group>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="eisenhower_quadrant"/>
+                <field name="priority_stars"/>
+                <field name="eisenhower_quadrant_sequence" readonly="1"/>
+                <field name="is_important"/>
+                <field name="is_urgent"/>
+                <field name="employee_id" readonly="1"/>
             </xpath>
         </field>
     </record>
@@ -100,7 +93,7 @@
             <field name="eisenhower_quadrant"/>
 
             <templates>
-                <t t-name="kanban-box">
+                <t t-name="card">
                     <div class="oe_kanban_global_click o_kanban_record o_eisenhower_kanban_record">
                         <!-- HEADER -->
                         <div class="o_kanban_record_top mb-2">
@@ -198,7 +191,7 @@
     <record id="action_mail_activity_overview_eisenhower" model="ir.actions.act_window">
         <field name="name">Activity Overview</field>
         <field name="res_model">mail.activity</field>
-        <field name="view_mode">tree,kanban,pivot,graph,form</field>
+        <field name="view_mode">list,kanban,pivot,graph,form</field>
         <field name="search_view_id" ref="view_mail_activity_search_eisenhower"/>
         <field name="context">{'search_default_group_by_user': 1}</field>
         <field name="domain">[]</field>
@@ -210,7 +203,7 @@
     <record id="action_mail_activity_my_eisenhower" model="ir.actions.act_window">
         <field name="name">My activities Eisenhower</field>
         <field name="res_model">mail.activity</field>
-        <field name="view_mode">kanban,tree,form,pivot,graph</field>
+        <field name="view_mode">kanban,list,form,pivot,graph</field>
         <field name="search_view_id" ref="view_mail_activity_search_eisenhower"/>
         <field name="domain">[('user_id', '=', uid)]</field>
         <field name="context">{'search_default_group_by_quadrant': 1}</field>
