@@ -46,20 +46,24 @@
                                     </div>
 
                                     <div class="card-body">
-                                        <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+                                        <div class="d-flex gap-2 mb-3">
                                             <button class="btn btn-sm btn-outline-primary"
                                                     t-on-click="() => this.openQuadrant(cell.key)">
                                                 Open list
                                             </button>
-
-                                            <t t-if="this.shouldShowToggle(cell)">
-                                                <button class="btn btn-sm btn-link o_eisenhower_toggle_btn px-0"
-                                                        t-on-click="() => this.toggleQuadrant(cell.key)">
-                                                    <t t-if="this.isQuadrantExpanded(cell.key)">Show less</t>
-                                                    <t t-else="">View all (<t t-esc="cell.count"/>)</t>
-                                                </button>
-                                            </t>
+                                            <button t-if="this.canToggleActivities(cell)"
+                                                    class="btn btn-sm btn-outline-secondary"
+                                                    t-on-click="() => this.toggleQuadrantActivities(cell.key)">
+                                                <t t-if="cell.expanded">Show less</t>
+                                                <t t-else="">See all (<t t-esc="cell.count"/>)</t>
+                                            </button>
                                         </div>
+
+                                        <t t-if="!cell.expanded and cell.count &gt; this.previewPerQuadrant">
+                                            <div class="small text-muted mb-2">
+                                                Showing first <t t-esc="this.previewPerQuadrant"/> activities out of <t t-esc="cell.count"/>.
+                                            </div>
+                                        </t>
 
                                         <t t-if="cell.activities.length">
                                             <ul class="list-group list-group-flush">

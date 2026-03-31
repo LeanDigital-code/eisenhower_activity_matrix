@@ -57,10 +57,11 @@ class MailActivity(models.Model):
 
     @api.depends('user_id')
     def _compute_employee_id(self):
+        employee_model = self.env['hr.employee'].sudo()
         for activity in self:
-            employee = self.env['hr.employee'].search([
+            employee = employee_model.search([
                 ('user_id', '=', activity.user_id.id)
-            ], limit=1)
+            ], limit=1) if activity.user_id else employee_model.browse()
             activity.employee_id = employee.id
 
     @api.depends('res_model', 'res_id')

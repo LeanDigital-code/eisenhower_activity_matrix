@@ -1,6 +1,6 @@
 {
     'name': 'Eisenhower Matrix',
-    'version': '17.0.1.0.0',
+    'version': '19.0.1.0.0',
     'summary': 'Prioritize chatter activities with an Eisenhower matrix dashboard',
     'description': """
 Prioritize Odoo chatter activities with an Eisenhower matrix workflow.
@@ -10,7 +10,7 @@ Main features:
 - 2x2 Eisenhower matrix dashboard
 - Drag and drop between quadrants
 - Priority stars and quadrant ordering
-- Tree, kanban, pivot and graph analysis views
+- List, kanban, pivot and graph analysis views
     """,
     'author': 'Lean Digital Studio',
     'website': 'https://www.leandigitalstudio.it',

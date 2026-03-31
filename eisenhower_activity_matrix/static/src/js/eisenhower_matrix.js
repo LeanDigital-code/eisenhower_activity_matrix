@@ -17,12 +17,6 @@ class EisenhowerMatrixDashboard extends Component {
             draggedActivityId: null,
             draggedFromQuadrant: null,
             dragOverQuadrant: null,
-            expandedQuadrants: {
-                do: false,
-                schedule: false,
-                delegate: false,
-                eliminate: false,
-            },
             cells: {
                 do: {
                     key: "do",
@@ -30,6 +24,7 @@ class EisenhowerMatrixDashboard extends Component {
                     subtitle: _t("Urgent + Important"),
                     count: 0,
                     activities: [],
+                    expanded: false,
                 },
                 schedule: {
                     key: "schedule",
@@ -37,6 +32,7 @@ class EisenhowerMatrixDashboard extends Component {
                     subtitle: _t("Important, not urgent"),
                     count: 0,
                     activities: [],
+                    expanded: false,
                 },
                 delegate: {
                     key: "delegate",
@@ -44,6 +40,7 @@ class EisenhowerMatrixDashboard extends Component {
                     subtitle: _t("Urgent, not important"),
                     count: 0,
                     activities: [],
+                    expanded: false,
                 },
                 eliminate: {
                     key: "eliminate",
@@ -51,12 +48,13 @@ class EisenhowerMatrixDashboard extends Component {
                     subtitle: _t("Not urgent, not important"),
                     count: 0,
                     activities: [],
+                    expanded: false,
                 },
             },
         });
 
         this.limitPerQuadrant = 50;
-        this.previewLimitPerQuadrant = 3;
+        this.previewPerQuadrant = 3;
 
         onWillStart(async () => {
             await this.loadData();
@@ -82,25 +80,6 @@ class EisenhowerMatrixDashboard extends Component {
         return Object.keys(this.state.cells);
     }
 
-    getVisibleActivities(cell) {
-        if (this.state.expandedQuadrants[cell.key]) {
-            return cell.activities;
-        }
-        return cell.activities.slice(0, this.previewLimitPerQuadrant);
-    }
-
-    shouldShowToggle(cell) {
-        return cell.count > this.previewLimitPerQuadrant;
-    }
-
-    isQuadrantExpanded(quadrantKey) {
-        return !!this.state.expandedQuadrants[quadrantKey];
-    }
-
-    toggleQuadrant(quadrantKey) {
-        this.state.expandedQuadrants[quadrantKey] = !this.state.expandedQuadrants[quadrantKey];
-    }
-
     async loadData() {
         this.state.loading = true;
         await Promise.all(this.quadrantKeys.map((key) => this.refreshQuadrant(key)));
@@ -124,6 +103,28 @@ class EisenhowerMatrixDashboard extends Component {
 
         this.state.cells[quadrantKey].count = count;
         this.state.cells[quadrantKey].activities = activities;
+    }
+
+
+    getVisibleActivities(cell) {
+        if (!cell) {
+            return [];
+        }
+        return cell.expanded
+            ? cell.activities
+            : cell.activities.slice(0, this.previewPerQuadrant);
+    }
+
+    canToggleActivities(cell) {
+        return !!cell && cell.activities.length > this.previewPerQuadrant;
+    }
+
+    toggleQuadrantActivities(quadrantKey) {
+        const cell = this.state.cells[quadrantKey];
+        if (!cell) {
+            return;
+        }
+        cell.expanded = !cell.expanded;
     }
 
     openQuadrant(key) {
