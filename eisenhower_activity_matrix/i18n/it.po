@@ -1,0 +1,292 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* eisenhower_activity_matrix
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-30 00:00+0000\n"
+"PO-Revision-Date: 2026-03-30 00:00+0000\n"
+"Last-Translator: ChatGPT\n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: eisenhower_activity_matrix
+msgid "Eisenhower"
+msgstr "Eisenhower"
+
+#. module: eisenhower_activity_matrix
+msgid "Eisenhower Matrix"
+msgstr "Matrice di Eisenhower"
+
+#. module: eisenhower_activity_matrix
+msgid "My Activities"
+msgstr "Le mie attività"
+
+#. module: eisenhower_activity_matrix
+msgid "Team Overview"
+msgstr "Panoramica team"
+
+#. module: eisenhower_activity_matrix
+msgid "Eisenhower Activities"
+msgstr "Attività Eisenhower"
+
+#. module: eisenhower_activity_matrix
+msgid "Related record"
+msgstr "Record collegato"
+
+#. module: eisenhower_activity_matrix
+msgid "Search activities"
+msgstr "Cerca attività"
+
+#. module: eisenhower_activity_matrix
+msgid "Overdue"
+msgstr "Scadute"
+
+#. module: eisenhower_activity_matrix
+msgid "Today"
+msgstr "Oggi"
+
+#. module: eisenhower_activity_matrix
+msgid "Upcoming"
+msgstr "In arrivo"
+
+#. module: eisenhower_activity_matrix
+msgid "3 stars"
+msgstr "3 stelle"
+
+#. module: eisenhower_activity_matrix
+msgid "2 stars"
+msgstr "2 stelle"
+
+#. module: eisenhower_activity_matrix
+msgid "1 star"
+msgstr "1 stella"
+
+#. module: eisenhower_activity_matrix
+msgid "Do first"
+msgstr "Fai subito"
+
+#. module: eisenhower_activity_matrix
+msgid "Schedule"
+msgstr "Pianifica"
+
+#. module: eisenhower_activity_matrix
+msgid "Delegate"
+msgstr "Delega"
+
+#. module: eisenhower_activity_matrix
+msgid "Eliminate / Postpone"
+msgstr "Elimina / Rimanda"
+
+#. module: eisenhower_activity_matrix
+msgid "Important"
+msgstr "Importante"
+
+#. module: eisenhower_activity_matrix
+msgid "Urgent"
+msgstr "Urgente"
+
+#. module: eisenhower_activity_matrix
+msgid "My activities"
+msgstr "Le mie attività"
+
+#. module: eisenhower_activity_matrix
+msgid "Group by"
+msgstr "Raggruppa per"
+
+#. module: eisenhower_activity_matrix
+msgid "User"
+msgstr "Utente"
+
+#. module: eisenhower_activity_matrix
+msgid "Employee"
+msgstr "Dipendente"
+
+#. module: eisenhower_activity_matrix
+msgid "Quadrant"
+msgstr "Quadrante"
+
+#. module: eisenhower_activity_matrix
+msgid "Priority stars"
+msgstr "Stelle priorità"
+
+#. module: eisenhower_activity_matrix
+msgid "Activity type"
+msgstr "Tipo attività"
+
+#. module: eisenhower_activity_matrix
+msgid "Model"
+msgstr "Modello"
+
+#. module: eisenhower_activity_matrix
+msgid "Deadline"
+msgstr "Scadenza"
+
+#. module: eisenhower_activity_matrix
+msgid "Priority"
+msgstr "Priorità"
+
+#. module: eisenhower_activity_matrix
+msgid "Activity analysis"
+msgstr "Analisi attività"
+
+#. module: eisenhower_activity_matrix
+msgid "Count"
+msgstr "Conteggio"
+
+#. module: eisenhower_activity_matrix
+msgid "Activity chart"
+msgstr "Grafico attività"
+
+#. module: eisenhower_activity_matrix
+msgid "Activity Overview"
+msgstr "Panoramica attività"
+
+#. module: eisenhower_activity_matrix
+msgid "Review all planned chatter activities grouped by user, employee, quadrant and priority."
+msgstr "Rivedi tutte le attività chatter pianificate raggruppate per utente, dipendente, quadrante e priorità."
+
+#. module: eisenhower_activity_matrix
+msgid "My activities Eisenhower"
+msgstr "Le mie attività Eisenhower"
+
+#. module: eisenhower_activity_matrix
+msgid "Drag activities from one quadrant to another to update their priority."
+msgstr "Trascina le attività da un quadrante all'altro per aggiornarne la priorità."
+
+#. module: eisenhower_activity_matrix
+msgid "Loading matrix..."
+msgstr "Caricamento matrice..."
+
+#. module: eisenhower_activity_matrix
+msgid "Updating activity..."
+msgstr "Aggiornamento attività..."
+
+#. module: eisenhower_activity_matrix
+msgid "Open list"
+msgstr "Apri elenco"
+
+#. module: eisenhower_activity_matrix
+msgid "No summary"
+msgstr "Nessun riepilogo"
+
+#. module: eisenhower_activity_matrix
+msgid "Drag"
+msgstr "Trascina"
+
+#. module: eisenhower_activity_matrix
+msgid "Assigned to"
+msgstr "Assegnato a"
+
+#. module: eisenhower_activity_matrix
+msgid "Deadline:"
+msgstr "Scadenza:"
+
+#. module: eisenhower_activity_matrix
+msgid "Type:"
+msgstr "Tipo:"
+
+#. module: eisenhower_activity_matrix
+msgid "Record:"
+msgstr "Record:"
+
+#. module: eisenhower_activity_matrix
+msgid "Open activity"
+msgstr "Apri attività"
+
+#. module: eisenhower_activity_matrix
+msgid "Open related record"
+msgstr "Apri record collegato"
+
+#. module: eisenhower_activity_matrix
+msgid "↑ Up"
+msgstr "↑ Su"
+
+#. module: eisenhower_activity_matrix
+msgid "↓ Down"
+msgstr "↓ Giù"
+
+#. module: eisenhower_activity_matrix
+msgid "No activities in this quadrant."
+msgstr "Nessuna attività in questo quadrante."
+
+#. module: eisenhower_activity_matrix
+msgid "Drag a card here to move it."
+msgstr "Trascina qui una scheda per spostarla."
+
+#. module: eisenhower_activity_matrix
+msgid "Urgent + Important"
+msgstr "Urgente + Importante"
+
+#. module: eisenhower_activity_matrix
+msgid "Important, not urgent"
+msgstr "Importante, non urgente"
+
+#. module: eisenhower_activity_matrix
+msgid "Urgent, not important"
+msgstr "Urgente, non importante"
+
+#. module: eisenhower_activity_matrix
+msgid "Not urgent, not important"
+msgstr "Non urgente, non importante"
+
+#. module: eisenhower_activity_matrix
+msgid "No related record available."
+msgstr "Nessun record collegato disponibile."
+
+#. module: eisenhower_activity_matrix
+msgid "Priority updated."
+msgstr "Priorità aggiornata."
+
+#. module: eisenhower_activity_matrix
+msgid "Error while updating priority."
+msgstr "Errore durante l'aggiornamento della priorità."
+
+#. module: eisenhower_activity_matrix
+msgid "Unable to move the activity up."
+msgstr "Impossibile spostare l'attività verso l'alto."
+
+#. module: eisenhower_activity_matrix
+msgid "Unable to move the activity down."
+msgstr "Impossibile spostare l'attività verso il basso."
+
+#. module: eisenhower_activity_matrix
+msgid "Activity moved successfully."
+msgstr "Attività spostata con successo."
+
+#. module: eisenhower_activity_matrix
+msgid "Unable to move the activity."
+msgstr "Impossibile spostare l'attività."
+
+#. module: eisenhower_activity_matrix
+msgid "Urgent"
+msgstr "Urgente"
+
+#. module: eisenhower_activity_matrix
+msgid "Important"
+msgstr "Importante"
+
+#. module: eisenhower_activity_matrix
+msgid "Priority stars"
+msgstr "Stelle priorità"
+
+#. module: eisenhower_activity_matrix
+msgid "Quadrant position"
+msgstr "Posizione nel quadrante"
+
+#. module: eisenhower_activity_matrix
+msgid "Eisenhower quadrant"
+msgstr "Quadrante Eisenhower"
+
+#. module: eisenhower_activity_matrix
+msgid "Related record"
+msgstr "Record collegato"
+
+#. module: eisenhower_activity_matrix
+msgid "Activity age (days)"
+msgstr "Età attività (giorni)"

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mail_activity_tree_eisenhower" model="ir.ui.view">
+        <field name="name">mail.activity.tree.eisenhower</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">
+            <tree string="Eisenhower Activities" multi_edit="1" sample="1">
+                <field name="eisenhower_quadrant_sequence" optional="show"/>
+                <field name="priority_stars"/>
+                <field name="date_deadline"/>
+                <field name="summary"/>
+                <field name="activity_type_id"/>
+                <field name="user_id"/>
+                <field name="employee_id" optional="show"/>
+                <field name="res_model" optional="show"/>
+                <field name="res_name_display" string="Related record" optional="show"/>
+                <field name="is_important" widget="boolean_toggle"/>
+                <field name="is_urgent" widget="boolean_toggle"/>
+                <field name="eisenhower_quadrant"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_mail_activity_search_eisenhower" model="ir.ui.view">
+        <field name="name">mail.activity.search.eisenhower</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">
+            <search string="Search activities">
+                <field name="summary"/>
+                <field name="user_id"/>
+                <field name="employee_id"/>
+                <field name="activity_type_id"/>
+                <field name="res_model"/>
+                <field name="date_deadline"/>
+                <field name="priority_stars"/>
+                <filter name="filter_overdue" string="Overdue" domain="[('date_deadline', '&lt;', context_today())]"/>
+                <filter name="filter_today" string="Today" domain="[('date_deadline', '=', context_today())]"/>
+                <filter name="filter_future" string="Upcoming" domain="[('date_deadline', '&gt;', context_today())]"/>
+                <separator/>
+                <filter name="filter_priority_3" string="3 stars" domain="[('priority_stars', '=', 3)]"/>
+                <filter name="filter_priority_2" string="2 stars" domain="[('priority_stars', '=', 2)]"/>
+                <filter name="filter_priority_1" string="1 star" domain="[('priority_stars', '=', 1)]"/>
+                <separator/>
+                <filter name="filter_do" string="Do first" domain="[('eisenhower_quadrant', '=', 'do')]"/>
+                <filter name="filter_schedule" string="Schedule" domain="[('eisenhower_quadrant', '=', 'schedule')]"/>
+                <filter name="filter_delegate" string="Delegate" domain="[('eisenhower_quadrant', '=', 'delegate')]"/>
+                <filter name="filter_eliminate" string="Eliminate / Postpone" domain="[('eisenhower_quadrant', '=', 'eliminate')]"/>
+                <separator/>
+                <filter name="filter_important" string="Important" domain="[('is_important', '=', True)]"/>
+                <filter name="filter_urgent" string="Urgent" domain="[('is_urgent', '=', True)]"/>
+                <filter name="filter_my_activities" string="My activities" domain="[('user_id', '=', uid)]"/>
+                <group expand="0" string="Group by">
+                    <filter name="group_by_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_by_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_by_quadrant" string="Quadrant" context="{'group_by': 'eisenhower_quadrant'}"/>
+                    <filter name="group_by_priority" string="Priority stars" context="{'group_by': 'priority_stars'}"/>
+                    <filter name="group_by_type" string="Activity type" context="{'group_by': 'activity_type_id'}"/>
+                    <filter name="group_by_model" string="Model" context="{'group_by': 'res_model'}"/>
+                    <filter name="group_by_deadline" string="Deadline" context="{'group_by': 'date_deadline'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_mail_activity_form_inherit_eisenhower" model="ir.ui.view">
+        <field name="name">mail.activity.form.inherit.eisenhower</field>
+        <field name="model">mail.activity</field>
+        <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <group string="Eisenhower Matrix">
+                    <field name="eisenhower_quadrant"/>
+                    <field name="priority_stars"/>
+                    <field name="eisenhower_quadrant_sequence" readonly="1"/>
+                    <field name="is_important"/>
+                    <field name="is_urgent"/>
+                    <field name="employee_id" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+<record id="view_mail_activity_kanban_eisenhower" model="ir.ui.view">
+    <field name="name">mail.activity.kanban.eisenhower</field>
+    <field name="model">mail.activity</field>
+    <field name="arch" type="xml">
+        <kanban default_group_by="eisenhower_quadrant"
+                class="o_kanban_small_column o_eisenhower_kanban_cards"
+                quick_create="false">
+            <field name="summary"/>
+            <field name="user_id"/>
+            <field name="employee_id"/>
+            <field name="date_deadline"/>
+            <field name="activity_type_id"/>
+            <field name="state"/>
+            <field name="res_name_display"/>
+            <field name="res_model"/>
+            <field name="priority_stars"/>
+            <field name="eisenhower_quadrant"/>
+
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_global_click o_kanban_record o_eisenhower_kanban_record">
+                        <!-- HEADER -->
+                        <div class="o_kanban_record_top mb-2">
+                            <div class="o_kanban_record_headings w-100">
+                                <strong class="o_kanban_record_title o_eisenhower_card_title">
+                                    <t t-esc="record.summary.value or 'No summary'"/>
+                                </strong>
+                            </div>
+                        </div>
+
+                        <!-- BODY -->
+                        <div class="o_kanban_record_body o_eisenhower_card_body">
+
+                            <!-- DEADLINE -->
+                            <div class="o_eisenhower_deadline_row mb-2" t-if="record.date_deadline.raw_value">
+                                <span t-attf-class="badge rounded-pill o_eisenhower_deadline_badge #{record.state.raw_value === 'overdue' ? 'o_deadline_overdue' : (record.state.raw_value === 'today' ? 'o_deadline_today' : 'o_deadline_planned')}">
+                                    <i class="fa fa-clock-o me-1"/>
+                                    <t t-esc="record.date_deadline.value"/>
+                                </span>
+                            </div>
+
+                            <!-- RELATED RECORD -->
+                            <div class="o_eisenhower_related_record mb-2"
+                                 t-if="record.res_name_display.value and record.res_name_display.value !== '/'">
+                                <i class="fa fa-link me-1 text-muted"/>
+                                <span class="o_eisenhower_related_text">
+                                    <t t-esc="record.res_name_display.value"/>
+                                </span>
+                            </div>
+
+                            <!-- ACTIVITY TYPE -->
+                            <div class="o_eisenhower_type_row mb-2" t-if="record.activity_type_id.value">
+                                <span class="badge rounded-pill o_eisenhower_type_badge">
+                                    <t t-esc="record.activity_type_id.value"/>
+                                </span>
+                            </div>
+
+                            <!-- MODEL -->
+                            <div class="o_eisenhower_model_row text-muted small"
+                                 t-if="record.res_model.value">
+                                <span>
+                                    <t t-esc="record.res_model.value"/>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- FOOTER -->
+                        <div class="o_kanban_record_bottom mt-3">
+                            <div class="oe_kanban_bottom_left d-flex align-items-center gap-2">
+                                <div class="o_eisenhower_star_rating" title="Priority">
+                                    <i t-att-class="'fa fa-star ' + (record.priority_stars.raw_value >= 1 ? 'o_star_active' : 'o_star_inactive')"/>
+                                    <i t-att-class="'fa fa-star ' + (record.priority_stars.raw_value >= 2 ? 'o_star_active' : 'o_star_inactive')"/>
+                                    <i t-att-class="'fa fa-star ' + (record.priority_stars.raw_value >= 3 ? 'o_star_active' : 'o_star_inactive')"/>
+                                </div>
+                            </div>
+
+                            <div class="oe_kanban_bottom_right">
+                                <field name="user_id" widget="many2one_avatar_user"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+    <record id="view_mail_activity_pivot_eisenhower" model="ir.ui.view">
+        <field name="name">mail.activity.pivot.eisenhower</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">
+            <pivot string="Activity analysis">
+                <field name="user_id" type="row"/>
+                <field name="employee_id" type="row"/>
+                <field name="eisenhower_quadrant" type="col"/>
+                <field name="priority_stars" type="col"/>
+                <field name="activity_type_id" type="col"/>
+                <field name="id" type="measure" string="Count"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_mail_activity_graph_eisenhower" model="ir.ui.view">
+        <field name="name">mail.activity.graph.eisenhower</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">
+            <graph string="Activity chart" type="bar">
+                <field name="eisenhower_quadrant"/>
+                <field name="priority_stars"/>
+                <field name="user_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_mail_activity_overview_eisenhower" model="ir.actions.act_window">
+        <field name="name">Activity Overview</field>
+        <field name="res_model">mail.activity</field>
+        <field name="view_mode">tree,kanban,pivot,graph,form</field>
+        <field name="search_view_id" ref="view_mail_activity_search_eisenhower"/>
+        <field name="context">{'search_default_group_by_user': 1}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p>Review all planned chatter activities grouped by user, employee, quadrant and priority.</p>
+        </field>
+    </record>
+
+    <record id="action_mail_activity_my_eisenhower" model="ir.actions.act_window">
+        <field name="name">My activities Eisenhower</field>
+        <field name="res_model">mail.activity</field>
+        <field name="view_mode">kanban,tree,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_mail_activity_search_eisenhower"/>
+        <field name="domain">[('user_id', '=', uid)]</field>
+        <field name="context">{'search_default_group_by_quadrant': 1}</field>
+    </record>
+
+    <record id="action_eisenhower_matrix_dashboard" model="ir.actions.client">
+        <field name="name">Eisenhower Matrix</field>
+        <field name="tag">eisenhower_activity_matrix.dashboard</field>
+    </record>
+</odoo>

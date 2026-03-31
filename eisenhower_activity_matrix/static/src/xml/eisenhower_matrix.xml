@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="eisenhower_activity_matrix.Dashboard">
+        <div class="o_action_manager o_eisenhower_page_scroll">
+            <div class="container-fluid py-3 o_eisenhower_dashboard">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h2 class="mb-1">Eisenhower Matrix</h2>
+                        <div class="text-muted">
+                            Drag activities from one quadrant to another to update their priority.
+                        </div>
+                    </div>
+                </div>
+
+                <t t-if="state.loading">
+                    <div class="alert alert-info">
+                        Loading matrix...
+                    </div>
+                </t>
+
+                <t t-else="">
+                    <t t-if="state.moving">
+                        <div class="alert alert-warning py-2">
+                            Updating activity...
+                        </div>
+                    </t>
+
+                    <div class="row g-3">
+                        <t t-foreach="Object.values(state.cells)" t-as="cell" t-key="cell.key">
+                            <div class="col-12 col-xl-6">
+                                <div class="card shadow-sm border-2 o_eisenhower_cell"
+                                     t-att-class="this.isDropTarget(cell.key) ? 'border-primary bg-primary-subtle o_eisenhower_drop_target' : 'border-light'"
+                                     t-on-dragover="(ev) => this.onDragOver(ev, cell.key)"
+                                     t-on-dragleave="() => this.onDragLeave(cell.key)"
+                                     t-on-drop="(ev) => this.onDrop(ev, cell.key)">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h4 class="mb-0">
+                                                <t t-esc="cell.title"/>
+                                            </h4>
+                                            <small class="text-muted">
+                                                <t t-esc="cell.subtitle"/>
+                                            </small>
+                                        </div>
+                                        <span class="badge rounded-pill text-bg-primary" t-esc="cell.count"/>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="d-flex gap-2 mb-3">
+                                            <button class="btn btn-sm btn-outline-primary"
+                                                    t-on-click="() => this.openQuadrant(cell.key)">
+                                                Open list
+                                            </button>
+                                        </div>
+
+                                        <t t-if="cell.activities.length">
+                                            <ul class="list-group list-group-flush">
+                                                <t t-foreach="cell.activities" t-as="activity" t-key="activity.id">
+                                                    <li class="list-group-item rounded mb-2 border o_eisenhower_activity_card"
+                                                        t-att-class="this.isDragged(activity.id) ? 'opacity-50 border-primary shadow-sm o_eisenhower_dragging' : ''"
+                                                        t-att-draggable="true"
+                                                        t-on-dragstart="(ev) => this.onDragStart(ev, activity, cell.key)"
+                                                        t-on-dragend="onDragEnd">
+
+                                                        <div class="d-flex justify-content-between align-items-start gap-3">
+                                                            <div class="flex-grow-1">
+                                                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
+                                                                    <div class="fw-bold o_eisenhower_clickable"
+                                                                         t-on-click="() => this.openActivity(activity.id)">
+                                                                        <t t-esc="activity.summary || 'No summary'"/>
+                                                                    </div>
+
+                                                                    <div class="d-flex align-items-center gap-2">
+                                                                        <div class="o_eisenhower_stars">
+                                                                            <span t-att-class="this.getStarClass(activity, 1)"
+                                                                                  t-on-click="() => this.setPriority(activity, 1)"/>
+                                                                            <span t-att-class="this.getStarClass(activity, 2)"
+                                                                                  t-on-click="() => this.setPriority(activity, 2)"/>
+                                                                            <span t-att-class="this.getStarClass(activity, 3)"
+                                                                                  t-on-click="() => this.setPriority(activity, 3)"/>
+                                                                        </div>
+
+                                                                        <span class="badge text-bg-light border">
+                                                                            Drag
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="small text-muted mb-2 d-flex flex-wrap gap-2 align-items-center">
+                                                                    <t t-if="activity.user_id">
+                                                                        <span>
+                                                                            Assigned to <t t-esc="activity.user_id[1]"/>
+                                                                        </span>
+                                                                    </t>
+
+                                                                    <t t-if="activity.date_deadline">
+                                                                        <span class="badge"
+                                                                              t-att-class="this.getDeadlineBadgeClass(activity)">
+                                                                            Deadline: <t t-esc="activity.date_deadline"/>
+                                                                        </span>
+                                                                    </t>
+                                                                </div>
+
+                                                                <div class="small text-muted mb-2">
+                                                                    <t t-if="activity.activity_type_id">
+                                                                        <span>Type: <t t-esc="activity.activity_type_id[1]"/></span>
+                                                                    </t>
+                                                                    <t t-if="activity.res_name_display and activity.res_name_display !== '/'">
+                                                                        <span> · Record: <t t-esc="activity.res_name_display"/></span>
+                                                                    </t>
+                                                                </div>
+
+                                                                <div class="d-flex flex-wrap gap-2 mt-2">
+                                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                                            t-on-click="() => this.openActivity(activity.id)">
+                                                                        Open activity
+                                                                    </button>
+
+                                                                    <button class="btn btn-sm btn-outline-primary"
+                                                                            t-if="activity.res_model and activity.res_id"
+                                                                            t-on-click="() => this.openRelatedRecord(activity)">
+                                                                        Open related record
+                                                                    </button>
+
+                                                                    <button class="btn btn-sm btn-outline-dark"
+                                                                            t-on-click="() => this.moveUp(activity)">
+                                                                        ↑ Up
+                                                                    </button>
+
+                                                                    <button class="btn btn-sm btn-outline-dark"
+                                                                            t-on-click="() => this.moveDown(activity)">
+                                                                        ↓ Down
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </t>
+                                            </ul>
+                                        </t>
+
+                                        <t t-else="">
+                                            <div class="text-muted border rounded p-3 bg-light">
+                                                No activities in this quadrant.<br/>
+                                                <small>Drag a card here to move it.</small>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

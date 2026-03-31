@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_eisenhower_root"
+              name="Eisenhower"
+              sequence="35"
+              groups="base.group_user"/>
+
+    <menuitem id="menu_eisenhower_my_activities"
+              name="My Activities"
+              parent="menu_eisenhower_root"
+              action="action_mail_activity_my_eisenhower"
+              sequence="10"
+              groups="base.group_user"/>
+
+    <menuitem id="menu_eisenhower_overview"
+              name="Team Overview"
+              parent="menu_eisenhower_root"
+              action="action_mail_activity_overview_eisenhower"
+              sequence="20"
+              groups="base.group_user"/>
+
+    <menuitem id="menu_eisenhower_matrix"
+              name="Eisenhower Matrix"
+              parent="menu_eisenhower_root"
+              action="action_eisenhower_matrix_dashboard"
+              sequence="30"
+              groups="base.group_user"/>
+</odoo>

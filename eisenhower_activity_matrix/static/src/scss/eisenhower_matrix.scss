@@ -1,0 +1,243 @@
+.o_eisenhower_page_scroll {
+    height: calc(100vh - 46px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+    scroll-behavior: smooth;
+}
+
+.o_eisenhower_dashboard {
+    min-height: calc(100vh - 46px + 220px);
+
+    .o_eisenhower_cell {
+        transition: all 0.18s ease-in-out;
+        min-height: 360px;
+        height: 100%;
+    }
+
+    .o_eisenhower_drop_target {
+        transform: scale(1.01);
+    }
+
+    .o_eisenhower_activity_card {
+        cursor: grab;
+        transition: all 0.16s ease-in-out;
+    }
+
+    .o_eisenhower_activity_card:hover {
+        transform: translateY(-1px);
+    }
+
+    .o_eisenhower_activity_card:active {
+        cursor: grabbing;
+    }
+
+    .o_eisenhower_dragging {
+        transform: scale(0.98);
+    }
+
+    .o_eisenhower_clickable {
+        cursor: pointer;
+    }
+
+    .o_eisenhower_stars {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 16px;
+        line-height: 1;
+    }
+
+    .o_eisenhower_stars span {
+        cursor: pointer;
+        transition: transform 0.15s ease-in-out;
+    }
+
+    .o_eisenhower_stars span:hover {
+        transform: scale(1.12);
+    }
+
+    .o_star_active {
+        color: #f4b400;
+    }
+
+    .o_star_inactive {
+        color: #b9b9b9;
+    }
+}
+
+/* ==========================================================
+   KANBAN "LE MIE ATTIVITÀ" IN STILE CRM
+   ========================================================== */
+
+.o_eisenhower_kanban_cards {
+    .o_kanban_group {
+        background: #f6f7f9;
+    }
+
+    .o_eisenhower_kanban_record {
+        background: #ffffff;
+        border: 1px solid #d9d9d9;
+        border-radius: 0;
+        padding: 14px 14px 12px 14px;
+        min-height: 175px;
+        box-shadow: none;
+        transition: all 0.18s ease-in-out;
+    }
+
+    .o_eisenhower_kanban_record:hover {
+        border-color: #bfc5cc;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+    }
+
+    .o_eisenhower_card_title {
+        display: block;
+        color: #212529;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.2;
+        margin-bottom: 0;
+    }
+
+    .o_eisenhower_card_body {
+        color: #4b5563;
+    }
+
+    .o_eisenhower_deadline_row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .o_eisenhower_deadline_badge {
+        font-size: 12px;
+        font-weight: 500;
+        padding: 6px 10px;
+        border: 1px solid transparent;
+    }
+
+    .o_deadline_overdue {
+        background: #fdeaea;
+        color: #b42318;
+        border-color: #f5c2c0;
+    }
+
+    .o_deadline_today {
+        background: #fff4db;
+        color: #9a6700;
+        border-color: #f4d58d;
+    }
+
+    .o_deadline_planned {
+        background: #eef2f7;
+        color: #475467;
+        border-color: #d0d5dd;
+    }
+
+    .o_eisenhower_related_record {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+        color: #344054;
+        min-height: 24px;
+    }
+
+    .o_eisenhower_related_text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .o_eisenhower_type_row {
+        display: flex;
+        align-items: center;
+    }
+
+    .o_eisenhower_type_badge {
+        background: #f7c7cc;
+        color: #4a1d24;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 6px 12px;
+        border: none;
+    }
+
+    .o_eisenhower_model_row {
+        margin-top: 2px;
+        font-size: 13px;
+    }
+
+    .o_kanban_record_bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: none;
+        padding-top: 0;
+    }
+
+    .oe_kanban_bottom_left {
+        min-height: 24px;
+    }
+
+    .oe_kanban_bottom_right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .o_eisenhower_star_rating {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .o_eisenhower_star_rating .o_star_active {
+        color: #f4b400;
+    }
+
+    .o_eisenhower_star_rating .o_star_inactive {
+        color: #d0d5dd;
+    }
+
+    .oe_kanban_avatar,
+    .o_field_many2one_avatar_user {
+        margin-left: auto;
+    }
+
+    .o_field_many2one_avatar_user img,
+    .o_m2o_avatar > img,
+    .o_kanban_image img {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+}
+
+/* scrollbar lato destro */
+.o_eisenhower_page_scroll::-webkit-scrollbar {
+    width: 12px;
+}
+
+.o_eisenhower_page_scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.o_eisenhower_page_scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(120, 120, 120, 0.45);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+.o_eisenhower_page_scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(120, 120, 120, 0.65);
+}
+
+.o_eisenhower_page_scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120, 120, 120, 0.55) transparent;
+}
