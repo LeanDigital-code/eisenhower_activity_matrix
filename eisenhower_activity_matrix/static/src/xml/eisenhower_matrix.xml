@@ -46,16 +46,24 @@
                                     </div>
 
                                     <div class="card-body">
-                                        <div class="d-flex gap-2 mb-3">
+                                        <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
                                             <button class="btn btn-sm btn-outline-primary"
                                                     t-on-click="() => this.openQuadrant(cell.key)">
                                                 Open list
                                             </button>
+
+                                            <t t-if="this.shouldShowToggle(cell)">
+                                                <button class="btn btn-sm btn-link o_eisenhower_toggle_btn px-0"
+                                                        t-on-click="() => this.toggleQuadrant(cell.key)">
+                                                    <t t-if="this.isQuadrantExpanded(cell.key)">Show less</t>
+                                                    <t t-else="">View all (<t t-esc="cell.count"/>)</t>
+                                                </button>
+                                            </t>
                                         </div>
 
                                         <t t-if="cell.activities.length">
                                             <ul class="list-group list-group-flush">
-                                                <t t-foreach="cell.activities" t-as="activity" t-key="activity.id">
+                                                <t t-foreach="this.getVisibleActivities(cell)" t-as="activity" t-key="activity.id">
                                                     <li class="list-group-item rounded mb-2 border o_eisenhower_activity_card"
                                                         t-att-class="this.isDragged(activity.id) ? 'opacity-50 border-primary shadow-sm o_eisenhower_dragging' : ''"
                                                         t-att-draggable="true"

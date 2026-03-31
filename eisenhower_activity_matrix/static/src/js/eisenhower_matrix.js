@@ -17,6 +17,12 @@ class EisenhowerMatrixDashboard extends Component {
             draggedActivityId: null,
             draggedFromQuadrant: null,
             dragOverQuadrant: null,
+            expandedQuadrants: {
+                do: false,
+                schedule: false,
+                delegate: false,
+                eliminate: false,
+            },
             cells: {
                 do: {
                     key: "do",
@@ -50,6 +56,7 @@ class EisenhowerMatrixDashboard extends Component {
         });
 
         this.limitPerQuadrant = 50;
+        this.previewLimitPerQuadrant = 3;
 
         onWillStart(async () => {
             await this.loadData();
@@ -73,6 +80,25 @@ class EisenhowerMatrixDashboard extends Component {
 
     get quadrantKeys() {
         return Object.keys(this.state.cells);
+    }
+
+    getVisibleActivities(cell) {
+        if (this.state.expandedQuadrants[cell.key]) {
+            return cell.activities;
+        }
+        return cell.activities.slice(0, this.previewLimitPerQuadrant);
+    }
+
+    shouldShowToggle(cell) {
+        return cell.count > this.previewLimitPerQuadrant;
+    }
+
+    isQuadrantExpanded(quadrantKey) {
+        return !!this.state.expandedQuadrants[quadrantKey];
+    }
+
+    toggleQuadrant(quadrantKey) {
+        this.state.expandedQuadrants[quadrantKey] = !this.state.expandedQuadrants[quadrantKey];
     }
 
     async loadData() {
